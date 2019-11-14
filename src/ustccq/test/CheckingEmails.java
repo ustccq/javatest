@@ -1,6 +1,7 @@
 package ustccq.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.stream.Stream;
@@ -104,13 +107,28 @@ public class CheckingEmails {
 						
 						Object mailContent = message.getContent();
 						if (mailContent instanceof MimeMultipart) {
-							MimeMultipart part = (MimeMultipart)mailContent;
-
-							if (Part.ATTACHMENT.equalsIgnoreCase(((Part)part).getDisposition())) {
-						        // this part is attachment
-						        // code to save attachment...
-//								part.saveFile("D:/Attachment/" + ((Part) part).getFileName());
-						    }
+							MimeMultipart mailMimeMultipart = (MimeMultipart)mailContent;
+							int bodyCount = mailMimeMultipart.getCount();
+							for (int j = 0; j < bodyCount; ++j) {
+								BodyPart mimePart = mailMimeMultipart.getBodyPart(j);
+								
+								if (Part.ATTACHMENT.equalsIgnoreCase(mimePart.getDisposition())) {
+									// this part is attachment
+									// code to save attachment...
+									if (mimePart instanceof MimeBodyPart) {
+										MimeBodyPart mimeBodyPart = (MimeBodyPart)mimePart;
+										System.out.println("附件MD5:" + mimeBodyPart.getContentMD5());
+										String attachmentName = gb2312ToGBK(mimeBodyPart.getFileName());
+										String[] names = attachmentName.split(".");
+										File tmp = File.createTempFile(names[0], names[1]);
+//										mimeBodyPart.saveFile("Attachment/" + );
+										mimeBodyPart.saveFile(tmp);
+										System.out.println("附件:" + mimeBodyPart.getLineCount());
+									}
+								}else {
+									System.out.println("正文:" + mimePart.getLineCount());
+								}
+							}
 						}
 						
 						System.out.println("Text: " + message.getContent().getClass());
@@ -156,6 +174,7 @@ public class CheckingEmails {
 //		                    "</body>\n" +
 //		                    "</html>", "text/html; charset=UTF-8");
 					message.setSubject("测试javax邮件发送");// 设置邮件主题
+//					MimeMessage.setSubject(MimeUtility.encodeText("测试javax邮件发送","gb2312", "B"))); //B为base64方式
 					// 发送邮件
 					Transport tran = session.getTransport();
 					tran.connect(host, host, password);
@@ -178,7 +197,7 @@ public class CheckingEmails {
 		String host = "mail.meowlomo.email";
 		String mailStoreType = "IMAP";
 		String username = "test.development@meowlomo.email";
-		String password = "Testing123";
+		String password = args[0];
 //		doMailAction(host, mailStoreType, username, password, "send");
 		doMailAction(host, mailStoreType, username, password, "get");
 	}

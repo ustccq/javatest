@@ -26,7 +26,8 @@
 	<classpathentry kind="lib" path="lib/guava-20.0.jar"/>
 	<classpathentry kind="lib" path="lib/javassist-3.20.0-GA.jar"/>
 	<classpathentry kind="lib" path="lib/zookeeper-3.4.13.jar"/>
-	<classpathentry kind="lib" path="lib/javax.mail-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail-1.6.2.jar" sourcepath="lib/javax.mail-1.6.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.9.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail-1.6.2-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
