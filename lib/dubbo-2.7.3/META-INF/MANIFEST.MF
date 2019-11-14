@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Title: dubbo-all
+Implementation-Version: 2.7.3
+Built-By: ken.lj
+Specification-Vendor: The Apache Software Foundation
+Specification-Title: dubbo-all
+Implementation-Vendor-Id: org.apache.dubbo
+Created-By: Apache Maven 3.6.0
+Build-Jdk: 1.8.0_131
+Implementation-URL: https://github.com/apache/dubbo/dubbo
+Specification-Version: 2.7.3
+Implementation-Vendor: The Apache Software Foundation
+

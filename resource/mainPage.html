@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+<head>
+	<style type="text/css">
+	#focus:hover #myDisplay{
+		display:block ;
+		background-color:red;
+	}
+	
+	.btn-style01{
+		background-color: #009688;
+		border: medium none;
+		border-radius: 2px;
+		color: #fff;
+		cursor: pointer;
+		display: inline-block;
+		font-size: 14px;
+		height: 38px;
+		line-height: 38px;
+		padding: 0 18px;
+		text-align: center;
+		white-space: nowrap;
+		}
+		
+	.black_overlay{
+		display: none;
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		z-index:1001;
+		-moz-opacity: 0.8;
+		opacity:.50;
+		filter: alpha(opacity=50);
+		}
+	.white_content {
+		display: none;
+		position: absolute;
+		top: 35%;
+		left: 36%;
+		width: 33%;
+		border: 2px solid #d3d3d3;
+		background-color: white;
+		z-index: 1002;
+		/* overflow: auto; */
+		}
+	.white_content_small {
+		display: none;
+		position: absolute;
+		top: 20%;
+		left: 30%;
+		width: 40%;
+		height: 50%;
+		border: 16px solid lightblue;
+		background-color: white;
+		z-index:1002;
+		overflow: auto;
+		}
+		
+	#div1 {
+		width:198px; 
+		height:66px;		
+		border:1px solid #aaaaaa;
+	}
+
+		.menuDiv { 
+        border: 2px solid #aac; 
+        overflow: hidden; 
+        display:inline-block;
+    }	
+	   
+    /* 去掉a标签的下划线 */
+    .menuDiv a {
+        text-decoration: none;
+    }
+    
+    /* 设置ul和li的样式 */
+    .menuDiv ul , .menuDiv li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        float: left;
+    } 
+    
+    /* 设置二级菜单绝对定位，并隐藏 */
+    .menuDiv > ul > li > ul {
+        position: absolute;
+        display: none;
+    }
+
+    /* 设置二级菜单的li的样式 */
+    .menuDiv > ul > li > ul > li {
+        float: none;
+    }
+  
+    /* 鼠标放在一级菜单上，显示二级菜单 */
+    .menuDiv > ul > li:hover ul {
+        display: block;
+    }
+
+    /* 一级菜单 */
+    .menuDiv > ul > li > a {
+        width: 120px;
+        line-height: 40px;
+        color: black;
+        background-color: #cfe;
+        text-align: center;
+        border-left: 1px solid #bbf;
+        display: block;
+    }
+    
+    /* 在一级菜单中，第一个不设置左边框 */
+    .menuDiv > ul > li:first-child > a {
+        border-left: none;
+    }
+
+    /* 在一级菜单中，鼠标放上去的样式 */
+    .menuDiv > ul > li > a:hover {
+        color: #f0f;
+        background-color: #bcf;
+    }
+
+    /* 二级菜单 */
+    .menuDiv > ul > li > ul > li > a {
+        width: 120px;
+        line-height: 36px;
+        color: #456;
+        background-color: #eff;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-top: none;
+        display: block;
+    }
+    
+    /* 在二级菜单中，第一个设置顶边框 */
+    .menuDiv > ul > li > ul > li:first-child > a {
+        border-top: 1px solid #ccc;
+    }
+    
+    /* 在二级菜单中，鼠标放上去的样式 */
+    .menuDiv > ul > li > ul > li > a:hover {
+        color: #a4f;
+        background-color: #cdf;
+    }
+	
+	
+	</style>
+
+	<script>
+
+		//var $eleBtn1 = $("#filedown");
+        //$eleBtn1.click(function(){
+        //    window.open("https://codeload.github.com/douban/douban-client/legacy.zip/master");
+        //});
+		
+	
+		function GetRequest()
+		{
+			var url = location.search; //获取url中"?"符后的字串
+   			var theRequest = new Object();
+    		if (url.indexOf("?") != -1) {
+        	var str = url.substr(1);
+        	strs = str.split("&");
+        	for (var i = 0; i < strs.length; i++) {
+            	theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+       	 	}
+    	}
+    	console.log(theRequest, '...');
+			return theRequest;
+		}
+
+			var userVal = GetRequest();
+			function getValue(){
+			document.getElementById("user").innerHTML = userVal['id'];
+		}
+
+		window.onload = function() {
+			getValue();
+		}
+
+		function openIframe(){
+			var iframe = document.getElementById("myFrame");
+			iframe.style.display="block";
+		}
+
+		function closeIframe(){
+			var iframe = document.getElementById("myFrame");
+			iframe.style.display="none";
+		}
+		
+		//弹出隐藏层
+		function ShowDiv(show_div,bg_div){
+			var scrollHeight = document.body.scrollHeight; //文档高度
+			document.getElementById(bg_div).style.height=scrollHeight+'px';
+	
+			document.getElementById(show_div).style.display='block';
+			document.getElementById(bg_div).style.display='block';
+		};
+		//关闭弹出层
+		function CloseDiv(show_div,bg_div)
+		{
+			document.getElementById("label").value = '';
+			document.getElementById(show_div).style.display='none';
+			document.getElementById(bg_div).style.display='none';
+		};
+		//关闭弹出层
+		function CloseDiv2()
+		{
+			document.getElementById("MyDiv").style.display='none';
+			document.getElementById("fade").style.display='none';
+		};
+		
+		function allowDrop(ev)
+		{
+			ev.preventDefault();
+		}
+
+		function drag(ev)
+		{
+			ev.dataTransfer.setData("Text",ev.target.id);
+		}
+
+		function drop(ev)
+		{
+			ev.preventDefault();
+			var data=ev.dataTransfer.getData("Text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+		
+		function btnAlert(){
+			window.prompt("meowlomo");
+		}
+
+	</script>
+</head>
+<body>
+	<div class="title">
+			<p><h3>欢迎您！<label id="user"></label></h3></p></br>	
+		</div>
+	<div class="main" align="center">
+		<table width="100%" cellspacing="15">			
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>webTextbox:</td>
+				<td><input id="Input" type="text" size="30" disabled="disabled"/></td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebRadio:</td>
+				<td>
+					<span id="radio1"><input name="radio01" type="radio" checked="checked" value="选项一"/>选项一</input></span>
+					<span id="radio2"><input name="radio01" type="radio" value="选项二"/>选项二</input></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebDropdown:</td>
+				<td>
+					<select id="year" name="select" height="100">
+						<option>2017</option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option>   
+						<option>2017</option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option> 
+						<option>2017</option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option> 
+						<option>2017</option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option> 
+							
+					</select>
+					<select id="month" name="select2">
+						<option>1</option>
+						<option>2</option>
+						<option>...</option>
+						<option>12</option>               
+					</select>
+					<select id="date" name="select3">
+						<option>1</option>
+						<option>2</option>
+						<option>...</option>
+						<option>31</option>                       
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebCheckbox:</td>
+				<td><div class="layui-form-item" pane="">
+						<input name="like1[write]" lay-skin="primary" title="写作" checked="" type="checkbox">						
+							<span>写作</span>
+							<i class="layui-icon layui-icon-ok"></i>						
+						<input name="like1[read]" lay-skin="primary" title="阅读" type="checkbox">						
+							<span>阅读</span>
+							<i class="layui-icon layui-icon-ok"></i>						
+						<input name="like1[game]" lay-skin="primary" title="游戏" type="checkbox">						
+							<span>游戏</span>
+							<i class="layui-icon layui-icon-ok"></i>				
+					</div>
+					</div>
+				</td>
+					</div>
+				</td> 
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebLink:</td>
+				<td><a id="linkBaiduGo" href="https://www.google.com/" target="_blank">这是一个链接</a></td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebFile:</td>
+				<td><span class=""><input id="fileUpload" type="file">
+        			</span>
+    			</td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebFile:</td>
+				<td><a id="filedown" href="pic/emma.jpg" download>点击下载</a>
+    			</td>
+			</tr>
+			<tr>
+				<td align="right"><font color=#ff0000>*</font>WebFile02:</td>
+				<td><a id="filedown02" href="pic/anne.jpg" download="点击下载">
+				<img border="0" src="002.png" alt="002">
+				</a>
+    			</td>
+			</tr>
+			<tr>
+				<td align="right"><font color="red">*</font>WebButton:</td>
+				<td><button id="btnSubmit" class="btn-style01" onclick="openIframe()">打开弹出层</button></td>
+				<td><button id="btnClose" class="btn-style01" onclick="closeIframe()">关闭弹出层</button></td>
+			</tr>
+			<tr>
+				<td align="right"><font color="red">*</font>弹出窗口:</td>
+				<td><button id="windowBtn" class="button border-green button-little" onclick="javasrcipt:ShowDiv('MyDiv','fade')" >弹出窗口</button></td>				
+			</tr>
+			<tr id="focus">
+				<td align="right"><font color="red">*</font>鼠标悬停:</td>
+				<td><button id="focus01" class="button border-green button-little" >鼠标悬停</button></td>				
+				<td class="td01" align="right"><a href="mainPage.html" id="myDisplay" style="display:block;" >这是悬停事件的展示！！</a>
+			</tr>			
+			<tr>
+				<td align="right">鼠标拖拽：</td>
+				<td>
+				<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+				<img id="drag1" src="pic/btn.png" draggable="true" ondragstart="drag(event)" /><td>
+			</tr>	
+			<tr>
+				<td align="right">弹出框：</td>
+				<td><button id="btnAlert" onclick="btnAlert()">点击弹出窗口</button><td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><label id="officerMobile_error" class="error" style="display: inline;">请输入正确的责任人移动电话</label></td>
+			</tr>
+				
+			<tr>
+				<div class="menuDiv">
+        <ul>
+            <li>
+                <a href="http://news.baidu.com/" id="menu01">菜单一</a>
+                <ul>
+                    <li><a id="menu02" href="https://www.baidu.com/">二级菜单</a></li>
+                    <li><a href="https://www.baidu.com/">二级菜单</a></li>
+                    <li><a href="https://www.baidu.com/">二级菜单</a></li>
+                </ul>
+            </li> 
+            <li>
+                <a href="#">菜单二</a>
+                <ul>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                </ul>
+            </li> 
+            <li>
+                <a href="#">菜单三</a>
+                <ul>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                </ul>
+            </li> 
+            <li>
+                <a href="#">菜单四</a>
+            </li> 
+            <li>
+                <a href="#">菜单五</a>
+                <ul>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                    <li><a href="#">二级菜单</a></li>
+                </ul>
+            </li> 
+        </ul>
+    </div>
+			</tr>
+			
+			<div id="fade" class="black_overlay" style="overflow-y:auto;"></div>
+				<div id="MyDiv" class="white_content" style="height:100;overflow:auto;width:250px;height:300px;">
+				<div style="height:100;text-align: right; cursor: default; margin-top:10px;margin-bottom:10px;">
+				<span style="font-size: 16px; margin-right: 17px; color: #56BE2D; font-weight: 600;cursor:pointer;"  onclick="CloseDiv('MyDiv','fade')">关闭</span>
+			</div>
+			<div class="itempanel" style="overflow:auto;margin-left: 13%;">
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft message"></div>
+				<div class="clear"></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div><div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+				<div class="floatleft title" style="text-align: left;">二级分类名称：</div>
+				<div class="floatleft editor" style="font-size:16px;height: 24px;line-height: 24px;"><input type="text" id="label" name="label" placeholder="请输入二级分类名称"/></div>
+			</div>
+				<HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3); margin-top: 39px;" width="90%" color=#ddd SIZE=2>
+				<div style="margin-bottom: 23px; margin-top: 23px; margin-left: 23%;">
+				<input type="button" class="greenbutton2" style="width: 123px;margin-left: 30px;" onclick="javasrcipt:goToAdd()" value="添加" style="width: 123px; margin-left: 20%; ">
+				<input id="cancel" type="button" class="greenbutton2" style="width: 123px;margin-left: 30px;" onclick="CloseDiv('MyDiv','fade')" value="取消" style="width: 123px; margin-left: 20%; ">
+				</div>
+			</div>
+		</table>
+
+		<iframe id="myFrame" src="iframe.html" style="display: none;"></iframe>
+		
+		<table border="1";  cellspacing="0"; summary="Search Results" class="x1ii x1j6" style="table-layout: fixed; position: relative; width: 600px;" _totalwidth="583" _selstate="{'0':1}" _rowcount="1" _startrow="0" cellspacing="0">
+		<colgroup span="3">
+			<col style="width: 420px;">
+			<col style="width:80px;">
+			<col style="width:120px;">
+		</colgroup>
+		<tbody>
+			<tr _afrrk="0" class="xe8 p_AFSelected">
+				<td style="width: 400px;" class="xe9" nowrap="">
+				<a class="xjk" onclick="return false;" href="#">Manage Profile Content Section Access</a></td>
+				<td style="width:80px;" class="xe9" nowrap="">Task</td>
+				<td style="width:80px;" class="xe9" nowrap="">
+					<span>详情</span>
+				</td>
+			</tr>
+			<br />
+			<tr>
+				<td style="width: 400px;" class="xe9" nowrap="">
+					<a class="xjk" onclick="return false;" href="#">msg0713</a>
+				</td>
+				<td style="width:80px;" class="xe9" nowrap="" value="task01">task01</td>
+				<td style="width:80px;" class="xe9" nowrap="">
+					<span>详情</span>
+				</td>
+			</tr>
+			<br />
+			<tr>
+				<td style="width: 400px;" class="xe9" nowrap="">
+					<a class="xjk" onclick="return false;" href="#">msg0715</a>
+				</td>
+				<td style="width:80px;" class="xe9" nowrap="" value="task02">task02</td>
+				<td style="width:80px;" class="xe9" nowrap="">
+					<span>详情</span>
+				</td>
+			</tr>
+			<br />
+			<tr>
+				<td style="width: 400px;" class="xe9" nowrap="">
+					<a class="xjk" onclick="return false;" href="#">msg0717</a>
+				</td>
+					<td style="width:80px;" class="xe9" nowrap="" value="task03">task03</td>
+					<td style="width:80px;" class="xe9" nowrap="">
+						<span>详情</span>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>	
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Window Alert Test</title>
+		<script type="text/javascript">
+			var xhr;
+			function altFunc() {
+				var result = window.alert('this is alert');
+				console.log('alert result:' + result);
+				setResult(result);
+			}
+		
+			function cfm() {
+				var result = window.confirm('this is confirm');
+				console.log('confirm result:' + result);
+				setResult(result);
+			}
+		
+			function pmp() {
+				var result = window.prompt('Tip', 'this is default value');
+				console.log('prompt result:' + result);
+				setResult(result);
+			}
+		
+			function setResult(re) {
+				document.getElementById('result').value = re;
+			}
+		</script>
+	</head>
+	<body>
+		<h2>Demonstrate the windows dialog function</h2>
+		<br />
+		<br />
+		<input type="button" id="Alert" onclick="altFunc()" value="Alert" />
+		<input type="button" id="Confirm" onclick="cfm()" value="Confirm" />
+		<input type="button" id="Prompt" onclick="pmp()" value="Prompt" />
+		<input id='result'>
+	</body>
+</html>

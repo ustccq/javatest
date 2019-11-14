@@ -1,0 +1,29 @@
+2019-08-30 16:27:34,779 INFO o.a.j.u.JMeterUtils: Setting Locale to zh_CN
+2019-08-30 16:27:34,799 INFO o.a.j.JMeter: Loading user properties from: D:\apache-jmeter-5.0\bin\user.properties
+2019-08-30 16:27:34,804 INFO o.a.j.JMeter: Loading system properties from: D:\apache-jmeter-5.0\bin\system.properties
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: Copyright (c) 1998-2018 The Apache Software Foundation
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: Version 5.0 r1840935
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: java.version=1.8.0_211
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: os.name=Windows 10
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: os.arch=amd64
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: os.version=10.0
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: file.encoding=GBK
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: Max memory     =2147483648
+2019-08-30 16:27:34,810 INFO o.a.j.JMeter: Available Processors =16
+2019-08-30 16:27:34,815 INFO o.a.j.JMeter: Default Locale=English (EN)
+2019-08-30 16:27:34,816 INFO o.a.j.JMeter: JMeter  Locale=Chinese (China)
+2019-08-30 16:27:34,816 INFO o.a.j.JMeter: JMeterHome=D:\apache-jmeter-5.0
+2019-08-30 16:27:34,816 INFO o.a.j.JMeter: user.dir  =D:\workspace\meowlomo\cq.test
+2019-08-30 16:27:34,816 INFO o.a.j.JMeter: PWD       =D:\workspace\meowlomo\cq.test
+2019-08-30 16:27:34,819 INFO o.a.j.JMeter: IP: 10.0.100.142 Name: MLSZXDSPCUS003 FullName: MLSZXDSPCUS003.szx.meowlomo.com
+2019-08-30 16:27:34,820 ERROR o.a.j.JMeter: An error occurred: 
+java.lang.IllegalArgumentException: Cannot write to 'D:\workspace\meowlomo\cq.test\?D:\apache-jmeter-5.0\bin\tmp\report1647' as folder does not exist and parent folder is not writable
+	at org.apache.jorphan.util.JOrphanUtils.canSafelyWriteToFolder(JOrphanUtils.java:649) ~[jorphan.jar:5.0 r1840935]
+	at org.apache.jmeter.JMeter.extractAndSetReportOutputFolder(JMeter.java:584) ~[ApacheJMeter_core.jar:5.0 r1840935]
+	at org.apache.jmeter.JMeter.start(JMeter.java:539) [ApacheJMeter_core.jar:5.0 r1840935]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_211]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_211]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_211]
+	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.8.0_211]
+	at org.apache.jmeter.NewDriver.main(NewDriver.java:245) [ApacheJMeter.jar:5.0 r1840935]

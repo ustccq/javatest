@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/org.apache.httpcomponents.httpclient_4.3.6.v201511171540.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.httpcomponents.httpcore_4.4.6.v20170210-0925.jar"/>
+	<classpathentry kind="lib" path="lib/json-20170516.jar" sourcepath="D:/mavenLocalRepo/org/json/json/20170516/json-20170516-sources.jar"/>
+	<classpathentry kind="lib" path="lib/ch.qos.logback.slf4j_1.0.7.v201505121915.jar"/>
+	<classpathentry kind="lib" path="lib/org.slf4j.api_1.7.2.v20121108-1250.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
+	<classpathentry kind="lib" path="lib/commons-pool2-2.7.0.jar"/>
+	<classpathentry kind="lib" path="lib/jedis-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/ch.qos.logback.classic_1.0.7.v20121108-1250.jar"/>
+	<classpathentry kind="lib" path="lib/ch.qos.logback.core_1.0.7.v20121108-1250.jar"/>
+	<classpathentry kind="lib" path="lib/lettuce-core-5.1.8.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/netty-all-4.1.39.Final.jar"/>
+	<classpathentry kind="lib" path="lib/reactor-core-3.2.11.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/reactive-streams-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/EvalEx-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/dubbo-2.7.3.jar"/>
+	<classpathentry kind="lib" path="lib/curator-client-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/curator-framework-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/curator-recipes-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/EvalEx-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-20.0.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-3.20.0-GA.jar"/>
+	<classpathentry kind="lib" path="lib/zookeeper-3.4.13.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.9.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
