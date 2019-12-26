@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.stream.Stream;
@@ -23,7 +24,6 @@ import javax.mail.Folder;
 import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
@@ -36,6 +36,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class CheckingEmails {
@@ -45,7 +46,6 @@ public class CheckingEmails {
 
 			// create properties field
 			Properties properties = new Properties();
-
 			properties.put("mail.store.protocol", storeType);
 			if (action.equals("get"))
 				if (storeType.equalsIgnoreCase("imap")) {
@@ -55,13 +55,25 @@ public class CheckingEmails {
 //					properties.put("mail.debug", "true");//设置debug模式
 	//				properties.put("mail.smtp.port", "587");
 	//				properties.put("mail.pop3.starttls.enable", "true");
-					Session emailSession = Session.getDefaultInstance(properties);
+					
 	
-					// create the POP3 store object and connect with the pop server
-					Store store = emailSession.getStore("imap");
-	
-					store.connect(host, user, password);
-	
+					Session session = Session.getInstance(properties,
+							new Authenticator() {
+								protected PasswordAuthentication getPasswordAuthentication() {
+									return new PasswordAuthentication(user,
+											password);
+								}
+							});
+					// create the POP3/IMAP store object and connect with the pop server
+					Store store = session.getStore("imap");
+					System.err.println("trying to connect imap server...");
+					store.connect();
+					
+//					Session emailSession = Session.getDefaultInstance(properties);
+//					Store store = emailSession.getStore("imap");
+//					store.connect(host, user, password);
+					
+					
 					// create the folder object and open it
 					Folder emailFolder = store.getFolder("INBOX");
 					emailFolder.open(Folder.READ_ONLY);
@@ -119,10 +131,39 @@ public class CheckingEmails {
 										MimeBodyPart mimeBodyPart = (MimeBodyPart)mimePart;
 										System.out.println("附件MD5:" + mimeBodyPart.getContentMD5());
 										String attachmentName = gb2312ToGBK(mimeBodyPart.getFileName());
-										String[] names = attachmentName.split(".");
-										File tmp = File.createTempFile(names[0], names[1]);
+										String[] names = attachmentName.split("\\.");
+										File tmp = File.createTempFile(names[0], "." + names[1]);
 //										mimeBodyPart.saveFile("Attachment/" + );
 										mimeBodyPart.saveFile(tmp);
+										
+										//shit, this way doesn't work
+										MessageDigest md = MessageDigest.getInstance("MD5");
+										try (InputStream is = Files.newInputStream(tmp.toPath());
+												DigestInputStream dis = new DigestInputStream(is, md)) {
+											/* Read decorated stream (dis) to EOF as normal... */
+										}
+										byte[] digest = md.digest();
+										BigInteger bi = new BigInteger(1, digest);
+										System.out.println(bi);
+										StringBuilder sb = new StringBuilder();
+										int d;
+										for (int k = 0; k < digest.length; k++) {
+											d = digest[k];
+											if (d < 0) {
+												d = digest[k] & 0xff;
+											}
+//											if (d < 16)
+//												sb.append("0");
+											sb.append(Integer.toHexString(d));
+										}
+										System.out.println("Calculated MD5: " + sb.toString());
+
+										String md5 = "";
+										try (InputStream is = Files.newInputStream(tmp.toPath())) {
+										    md5 = DigestUtils.md5Hex(is);
+										}
+										System.out.println("Calculated MD5 by codec:" + md5);
+										
 										System.out.println("附件:" + mimeBodyPart.getLineCount());
 									}
 								}else {
@@ -198,6 +239,8 @@ public class CheckingEmails {
 		String mailStoreType = "IMAP";
 		String username = "test.development@meowlomo.email";
 		String password = args[0];
+		ClassLoader cl = Session.class.getClassLoader();
+		System.out.println("Session's class loader is:" + cl);
 //		doMailAction(host, mailStoreType, username, password, "send");
 		doMailAction(host, mailStoreType, username, password, "get");
 	}

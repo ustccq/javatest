@@ -3,6 +3,13 @@ package ustccq.test;
 public class StringFormatTest {
 
 	public static void main(String[] args) {
+		String target = "云拨测-用例列表（43-75）-bug整理-bomb.xlsx";
+		String target2 = "bomb.xlsx";
+		String[] splits = target.split("\\.");
+		String[] splits2= target2.split("\\.");
+		
+		System.out.println(splits.length);
+		System.out.println(splits2.length);
 		String container = "$(a)=b&$(a)=123;";
 		Object box = container;
 		String tmpString = (String)box;
